@@ -1,0 +1,116 @@
+@startuml teste
+
+entity  TB_media_type{
+
+    *id : INTEGER
+    name: NVARCHAR(120)
+
+}
+
+entity TB_genres{
+    *id : INTEGER
+    Name : NVARCHAR(120)
+}
+
+entity TB_playlist{
+    *id : INTEGER
+    Name : NVARCHAR(120)
+}
+
+entity TB_playlist_track{
+    *id : INTEGER
+    *TrackId : INTEGER
+}
+
+entity TB_tracks {
+    *id : INTEGER
+    Name : NVARCHAR(120)
+    AlbumId : INTEGER <<FK>>
+    MediaTypeId : INTEGER <<FK>>
+    GenreId : INTEGER <<FK>>
+    Composer : NVARCHAR(220)
+    Miliseconds : INTEGER
+    Bytes : INTEGER
+    UnitPrice : NUMERIC
+
+}
+
+entity TB_artists{
+    *id : INTEGER
+    Name : NVARCHAR(120)
+}
+
+entity TB_invoices {
+    *id : INTEGER
+    CustomerId : INTEGER <<FK>>
+    InvoiceDate : DATETIME 
+    BillingAddres : NVARCHAR(120)
+    BillingCity : NVARCHAR(120)
+}
+
+entity TB_invoice_items {
+    *id : INTEGER
+    InvoiceId : INTEGER <<FK>>
+    TrackId : INTEGER <<FK>>
+    UnitPrice : NUMERIC
+    Quatity : INTEGER
+}
+
+entity TB_albums {
+    *id : INTEGER
+    Title : NVARCHAR(160)
+    ArtistId : INTEGER <<FK>>
+}
+
+entity TB_customers {
+    *id : INTEGER
+    FirstName : NVARCHAR(40)
+    LastName : NVARCHAR (20)
+    Company : NVARCHAR(80)
+    Addres : NVARCHAR(70)
+    City : NVARCHAR(40)
+    State : NVARCHAR(40)
+    Country : NVARCHAR(40)
+    PostalCode : NVARCHAR(10)
+    Phone : NVARCHAR(24)
+    Fax : NVARCHAR(24)
+    Email : NVARCHAR(60)
+    SupportRepId : INTEGER
+}
+
+entity TB_employees{
+    *id : INTEGER
+    FirstName : NVARCHAR(40)
+    LastName : NVARCHAR(20)
+    Title : NVARCHAR(30)
+    ReportsTo : INTEGER
+    BirthDate : DATETIME
+    HireDate : DATETIME
+    Addres : NVARCHAR(70)
+}
+
+TB_media_type ||--o{ TB_tracks
+
+TB_genres |o--o{ TB_tracks
+
+TB_playlist ||--o| TB_playlist_track
+
+TB_playlist_track |o--|| TB_tracks
+
+TB_tracks ||--o{ TB_invoice_items
+
+TB_tracks }o--o| TB_albums
+
+TB_artists ||--o{ TB_albums
+
+TB_invoices ||--o{ TB_invoice_items
+
+TB_invoices }o--|| TB_customers
+
+TB_customers }o--o| TB_employees
+
+TB_employees }o--o| TB_employees
+
+
+
+@enduml
